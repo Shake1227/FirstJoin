@@ -1,0 +1,55 @@
+options:
+    prefix: &7[&a&lShake&6&lFJ&7]#ここともう以下のgive以降の日本語の場所を変更する
+On First Join:
+    give 15 アイテムID named "アイテムの名前" with lore "アイテムの説明" to player
+    if {firstspawn} is not set:
+        send "{@prefix}&c初期スポーン地点が設定されていません。"
+    teleport player to {firstspawn}
+    if {firstmessage} is not set:
+        send "{@prefix}&cメッセージが設定されていません。"
+        stop
+    send "%{firstmessage}%"
+command /firstjoin [<text>] [<text>]:
+    permission: skript.admin
+    permission message: &cYou don't have Permission.
+    trigger:
+        if arg 1 is "message":
+            set {firstmessage} to colored arg 2
+            send "{@prefix}&a初参加時のメッセージが登録されました。"
+        if arg 1 is "spawn":
+            set {firstspawn} to location of player
+            send "{@prefix}&aスポーンが設定されました。"
+        if arg 1 is "delmessage":
+            if {firstmessage} is not set:
+                send "{@prefix}&cメッセージが設定されていないため、削除に失敗しました。"
+                stop
+            delete {firstmessage}
+            send "{@prefix}&a正常にメッセージが削除されました。"
+        if arg 1 is "delspawn":
+            if {firstspawn} is not set:
+                send "{@prefix}&cスポーン地点が設定されていないため、削除に失敗しました。"
+            delete {firstspawn}
+            send "{@prefix}&a正常にスポーンが削除されました。"
+        if arg 1 is "test":#give以降の日本語の場所を変更する
+            if {firstspawn} is not set:
+                send "{@prefix}&c初期スポーン地点が設定されていません。"
+            teleport player to {firstspawn}
+            give 15 アイテムID named "アイテムの名前" with lore "アイテムの説明" to player
+            if {firstmessage} is not set:
+                send "{@prefix}&cメッセージが設定されていません。"
+                stop
+            send "%{firstmessage}%"
+        if arg 1 is "help":
+            send "&b-----------------------------------------------------"
+            send "&a&lShake&6&lFirstJoin"
+            send ""
+            send "&emessage・・・初参加プレイヤーに表示する&b&nメッセージを設定します。"
+            send "&espawn・・・初参加時に&b&nスポーンする地点&eを設定します。"
+            send "&etest・・・初参加プレイヤーに&b&n働く動作の確認&eができます。"
+            send "&e全ての頭にdelをつけると削除のコマンドになります。"
+            send ""
+            send "&eその他不具合等がございましたらShakeにDM等でお問い合わせください。"
+            send "&bTwitter &6@_RIP_Shake"
+            send "&b-----------------------------------------------------"
+        if arg 1 is not set:
+            send "{@prefix}&eヘルプが必要な場合は &c&n/firstjoin help &eを実行してください。"
